@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Abitech\AntiBot\Rules;
 
 use Abitech\AntiBot\Facades\AntiBot;
+use Illuminate\Contracts\Validation\Rule;
 
-class AntiBotRule
+class AntiBotRule implements Rule
 {
     /** @var string|null */
     protected $action;
