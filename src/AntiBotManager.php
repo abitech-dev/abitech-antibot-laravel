@@ -9,6 +9,7 @@ use Abitech\AntiBot\Contracts\AntiBotProviderInterface;
 use Abitech\AntiBot\Providers\CloudflareTurnstileProvider;
 use Abitech\AntiBot\Providers\GoogleRecaptchaV2Provider;
 use Abitech\AntiBot\Providers\GoogleRecaptchaV3Provider;
+use Abitech\AntiBot\DTOs\VerificationResult;
 
 class AntiBotManager extends Manager
 {
@@ -61,5 +62,21 @@ class AntiBotManager extends Manager
             (float) $this->config->get('antibot.providers.recaptcha_v3.score', 0.5),
             (int) $this->config->get('antibot.providers.recaptcha_v3.timeout', 10)
         );
+    }
+
+    /**
+     * Intercepta las llamadas al driver para inyectar el modo de prueba (Bypass).
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if ($method === 'verify' && !$this->config->get('antibot.enabled', true)) {
+            return new VerificationResult(true);
+        }
+
+        return parent::__call($method, $parameters);
     }
 }

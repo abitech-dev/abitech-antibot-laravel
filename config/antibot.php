@@ -5,6 +5,17 @@ declare(strict_types=1);
 return [
     /*
     |--------------------------------------------------------------------------
+    | Habilitar AntiBot
+    |--------------------------------------------------------------------------
+    |
+    | Define si el paquete AntiBot realizará validaciones reales o si hará
+    | un bypass (útil para entornos locales o pruebas automatizadas).
+    |
+    */
+    'enabled' => env('ANTIBOT_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Proveedor por Defecto
     |--------------------------------------------------------------------------
     |
