@@ -1,0 +1,39 @@
+{
+    "name": "abitech/antibot-laravel",
+    "description": "Una API unificada para validar proveedores AntiBot en Laravel.",
+    "type": "library",
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^9.0|^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Abitech\\AntiBot\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Abitech\\AntiBot\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Abitech\\AntiBot\\AntiBotServiceProvider"
+            ],
+            "aliases": {
+                "AntiBot": "Abitech\\AntiBot\\Facades\\AntiBot"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
