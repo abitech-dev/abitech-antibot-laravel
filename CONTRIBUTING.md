@@ -33,18 +33,20 @@ No subas esos cambios de `composer.json`.
 
 ## Mensajes de commit
 
-Se usan [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/).
-Con ellos se calcula la versión siguiente y se escribe el CHANGELOG.
+Se usan [Conventional Commits](https://www.conventionalcommits.org/es/v1.0.0/),
+como `feat(core): aceptar hCaptcha` o `fix(rule): leer la IP detrás de un proxy`.
 
-| Tipo                                      | Cuándo                       | Versión |
-| ----------------------------------------- | ---------------------------- | ------- |
-| `feat`                                    | Algo nuevo para quien lo usa | Menor   |
-| `fix`                                     | Corrige un fallo             | Parche  |
-| `feat!` o `fix!`                          | Rompe la compatibilidad      | Mayor   |
-| `docs`, `test`, `ci`, `chore`, `refactor` | No cambia el uso             | Ninguna |
+Cada cambio que nota quien usa el paquete suma su línea en la sección
+`[Sin publicar]` del `CHANGELOG.md`, en el mismo PR.
 
 ## Publicación
 
-Nadie publica a mano. Al unir a `main`, la integración continua abre o
-actualiza el PR de la versión siguiente. Al unir ese PR se crea la etiqueta, y
-Packagist la publica.
+Las versiones siguen [SemVer](https://semver.org/lang/es/). Un `fix` sube el
+parche, un `feat` la menor y un cambio incompatible la mayor.
+
+1. Un PR cambia `## [Sin publicar]` por la versión con su fecha, por ejemplo
+   `## [1.1.0] - 2026-12-01`, y deja arriba una sección `[Sin publicar]`
+   vacía.
+2. Al unirlo, la Action crea la etiqueta `v1.1.0` y el release de GitHub con
+   esas notas.
+3. Packagist publica la etiqueta sola.

@@ -4,7 +4,20 @@ Todos los cambios de este paquete se anotan aquí. El formato sigue
 [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y las versiones,
 [Semantic Versioning](https://semver.org/lang/es/).
 
-## 1.0.0 (2026-06-24)
+## [Sin publicar]
+
+### Cambiado
+
+- El paquete se publica en Packagist como `abitechdev/antibot-laravel`.
+  Quien lo instalaba como `abitech/antibot-laravel` desde GitHub cambia el
+  nombre en su `composer.json`.
+
+### Corregido
+
+- `guzzlehttp/guzzle` queda declarado como dependencia. El cliente HTTP de
+  Laravel lo necesita y antes solo funcionaba si la app ya lo traía.
+
+## [1.0.0] - 2026-06-24
 
 ### Agregado
 
