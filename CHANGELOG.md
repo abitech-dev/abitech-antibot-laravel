@@ -6,6 +6,8 @@ Todos los cambios de este paquete se anotan aquí. El formato sigue
 
 ## [Sin publicar]
 
+## [1.0.1] - 2026-11-15
+
 ### Cambiado
 
 - El paquete se publica en Packagist como `abitechdev/antibot-laravel`.
