@@ -8,8 +8,8 @@
 <h3 align="center">Protege tus formularios de bots con una sola regla de validación</h3>
 
 <p align="center">
-  <a href="https://packagist.org/packages/abitech/antibot-laravel"><img alt="Versión en Packagist" src="https://img.shields.io/packagist/v/abitech/antibot-laravel?style=flat-square&color=1c6ccc&label=packagist"></a>
-  <a href="https://packagist.org/packages/abitech/antibot-laravel"><img alt="Descargas" src="https://img.shields.io/packagist/dt/abitech/antibot-laravel?style=flat-square&color=1c6ccc&label=descargas"></a>
+  <a href="https://packagist.org/packages/abitechdev/antibot-laravel"><img alt="Versión en Packagist" src="https://img.shields.io/packagist/v/abitechdev/antibot-laravel?style=flat-square&color=1c6ccc&label=packagist"></a>
+  <a href="https://packagist.org/packages/abitechdev/antibot-laravel"><img alt="Descargas" src="https://img.shields.io/packagist/dt/abitechdev/antibot-laravel?style=flat-square&color=1c6ccc&label=descargas"></a>
   <a href="https://github.com/abitech-dev/abitech-antibot-laravel/actions/workflows/ci.yml"><img alt="Integración continua" src="https://img.shields.io/github/actions/workflow/status/abitech-dev/abitech-antibot-laravel/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <img alt="PHP 7.3 o superior" src="https://img.shields.io/badge/php-%E2%89%A57.3-777bb4?style=flat-square&logo=php&logoColor=white">
   <img alt="Laravel 8 a 13" src="https://img.shields.io/badge/laravel-8%20a%2013-ff2d20?style=flat-square&logo=laravel&logoColor=white">
@@ -44,7 +44,7 @@ variable de entorno.
 **1. Instala el paquete.** Laravel lo registra solo.
 
 ```bash
-composer require abitech/antibot-laravel
+composer require abitechdev/antibot-laravel
 ```
 
 **2. Agrega la clave secreta** de tu proveedor al `.env`.

@@ -4,7 +4,7 @@
 
 Paquete Composer:
 
-abitech/antibot-laravel
+abitechdev/antibot-laravel
 
 Objetivo:
 

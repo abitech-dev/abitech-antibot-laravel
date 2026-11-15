@@ -1,5 +1,5 @@
 {
-    "name": "abitech/antibot-laravel",
+    "name": "abitechdev/antibot-laravel",
     "description": "Protege los formularios de Laravel contra bots con Cloudflare Turnstile o Google reCAPTCHA desde una sola regla de validación.",
     "type": "library",
     "license": "MIT",

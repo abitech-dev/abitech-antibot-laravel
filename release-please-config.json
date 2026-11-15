@@ -16,7 +16,7 @@
   ],
   "packages": {
     ".": {
-      "package-name": "abitech/antibot-laravel",
+      "package-name": "abitechdev/antibot-laravel",
       "changelog-path": "CHANGELOG.md"
     }
   }
