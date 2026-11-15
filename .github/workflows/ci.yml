@@ -36,6 +36,10 @@ jobs:
       - name: Validar composer.json
         run: composer validate --strict --no-check-lock
 
+      # Keep a Changelog, con la sección de lo próximo a publicar.
+      - name: Revisar el CHANGELOG
+        run: grep -qx '## \[Sin publicar\]' CHANGELOG.md
+
       # Sin secretos en el historial.
       - name: Buscar secretos
         run: |
