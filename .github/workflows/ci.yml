@@ -1,0 +1,128 @@
+name: Integración continua
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GITLEAKS: 8.30.1
+  GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+
+jobs:
+  paquete:
+    name: Paquete (Composer, secretos y archivo publicado)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: "8.3"
+          coverage: none
+
+      # Esquema de Composer con licencia SPDX, autores y soporte.
+      - name: Validar composer.json
+        run: composer validate --strict --no-check-lock
+
+      # Ningún secreto en el historial (OWASP ASVS V2).
+      - name: Buscar secretos
+        run: |
+          archivo=gitleaks_${GITLEAKS}_linux_x64.tar.gz
+          curl -fsSLO "https://github.com/gitleaks/gitleaks/releases/download/v$GITLEAKS/$archivo"
+          echo "$GITLEAKS_SHA256  $archivo" | sha256sum -c
+          tar -xzf "$archivo" gitleaks
+          ./gitleaks git --redact --no-banner
+
+      # Advisories de Packagist sobre las dependencias resueltas.
+      - name: Auditar dependencias
+        run: |
+          composer update --no-interaction --no-progress --prefer-dist
+          composer audit
+
+      # Packagist sirve el archivo de git, con el código y sin las pruebas.
+      - name: Revisar el archivo publicado
+        run: |
+          git archive HEAD | tar -t > contenido.txt
+          for requerido in composer.json LICENSE README.md src/ config/ lang/; do
+            grep -qx "$requerido" contenido.txt || { echo "Falta $requerido"; exit 1; }
+          done
+          if grep -E '^(tests|\.github|docs|\.agents)/' contenido.txt; then
+            echo "El archivo publicado lleva carpetas de desarrollo"; exit 1
+          fi
+
+  estatico:
+    name: Estilo PSR-12 y PHPStan
+    needs: paquete
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: "8.3"
+          coverage: none
+
+      # Pint y Larastan piden PHP 8, así que no van en composer.json.
+      - name: Instalar las herramientas
+        run: >
+          composer require --dev --no-interaction --no-progress -W
+          laravel/pint:^1 larastan/larastan:^3
+
+      - name: Estilo PSR-12
+        run: vendor/bin/pint --test
+
+      - name: PHPStan nivel 6
+        run: vendor/bin/phpstan analyse --no-progress
+
+  pruebas:
+    name: PHP ${{ matrix.php }} con Laravel ${{ matrix.laravel }} (${{ matrix.estabilidad }})
+    needs: paquete
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      # Cada versión de Laravel que promete composer.json, con su PHP mínimo.
+      matrix:
+        include:
+          - { php: "7.3", laravel: "8.*", testbench: "6.*", estabilidad: prefer-lowest }
+          - { php: "8.0", laravel: "9.*", testbench: "7.*", estabilidad: prefer-stable }
+          - { php: "8.1", laravel: "10.*", testbench: "8.*", estabilidad: prefer-stable }
+          - { php: "8.2", laravel: "11.*", testbench: "9.*", estabilidad: prefer-stable }
+          - { php: "8.3", laravel: "12.*", testbench: "10.*", estabilidad: prefer-stable }
+          - { php: "8.3", laravel: "13.*", testbench: "11.*", estabilidad: prefer-lowest }
+          - { php: "8.5", laravel: "13.*", testbench: "11.*", estabilidad: prefer-stable }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Instalar la combinación
+        run: |
+          composer require --no-update --no-interaction \
+            "illuminate/http:${{ matrix.laravel }}" \
+            "illuminate/support:${{ matrix.laravel }}" \
+            "orchestra/testbench:${{ matrix.testbench }}"
+          composer update --${{ matrix.estabilidad }} --prefer-dist --no-interaction --no-progress
+
+      - name: Pruebas
+        run: vendor/bin/phpunit
