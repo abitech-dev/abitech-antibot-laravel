@@ -1,15 +1,39 @@
 {
     "name": "abitech/antibot-laravel",
-    "description": "Una API unificada para validar proveedores AntiBot en Laravel.",
+    "description": "Protege los formularios de Laravel contra bots con Cloudflare Turnstile o Google reCAPTCHA desde una sola regla de validación.",
     "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "antibot",
+        "captcha",
+        "turnstile",
+        "cloudflare",
+        "recaptcha",
+        "validation",
+        "middleware"
+    ],
+    "homepage": "https://github.com/abitech-dev/abitech-antibot-laravel",
+    "authors": [
+        {
+            "name": "Abimael Fernandez",
+            "homepage": "https://abitech.dev",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/abitech-dev/abitech-antibot-laravel/issues",
+        "source": "https://github.com/abitech-dev/abitech-antibot-laravel",
+        "security": "https://github.com/abitech-dev/abitech-antibot-laravel/security/policy"
+    },
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
-        "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0"
+        "illuminate/http": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-        "phpunit/phpunit": "^9.0|^10.0|^11.0"
+        "phpunit/phpunit": "^9.5|^10.0|^11.0|^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -31,9 +55,12 @@
             }
         }
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
