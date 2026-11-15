@@ -116,8 +116,11 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
 
+      # Laravel 8 a 11 ya no reciben parches y Composer bloquea sus versiones
+      # con advisories. Aquí solo se prueba la compatibilidad del paquete.
       - name: Instalar la combinación
         run: |
+          composer config audit.block-insecure false
           composer require --no-update --no-interaction \
             "illuminate/http:${{ matrix.laravel }}" \
             "illuminate/support:${{ matrix.laravel }}" \
