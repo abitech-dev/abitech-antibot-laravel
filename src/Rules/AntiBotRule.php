@@ -35,7 +35,7 @@ class AntiBotRule implements Rule
         }
 
         $ip = request()->ip();
-        
+
         $result = AntiBot::verify($value, $ip, $this->action);
 
         if (!$result->success) {

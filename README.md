@@ -1,63 +1,244 @@
-# Abitech AntiBot para Laravel
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/logo-dark.svg">
+    <img alt="AntiBot para Laravel" src=".github/assets/logo-light.svg" width="420">
+  </picture>
+</p>
 
-Una API unificada, limpia y escalable para validar proveedores AntiBot en Laravel. Soporta **Cloudflare Turnstile**, **Google reCAPTCHA v2** y **Google reCAPTCHA v3**.
+<h3 align="center">Protege tus formularios de bots con una sola regla de validación</h3>
 
-[![Laravel](https://img.shields.io/badge/Laravel-8.x--13.x-FF2D20.svg)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-7.3--8.3-777BB4.svg)](https://php.net)
+<p align="center">
+  <a href="https://packagist.org/packages/abitechdev/antibot-laravel"><img alt="Versión en Packagist" src="https://img.shields.io/packagist/v/abitechdev/antibot-laravel?style=flat-square&color=1c6ccc&label=packagist"></a>
+  <a href="https://packagist.org/packages/abitechdev/antibot-laravel"><img alt="Descargas" src="https://img.shields.io/packagist/dt/abitechdev/antibot-laravel?style=flat-square&color=1c6ccc&label=descargas"></a>
+  <a href="https://github.com/abitech-dev/abitech-antibot-laravel/actions/workflows/ci.yml"><img alt="Integración continua" src="https://img.shields.io/github/actions/workflow/status/abitech-dev/abitech-antibot-laravel/ci.yml?branch=main&style=flat-square&label=CI"></a>
+  <img alt="PHP 7.3 o superior" src="https://img.shields.io/badge/php-%E2%89%A57.3-777bb4?style=flat-square&logo=php&logoColor=white">
+  <img alt="Laravel 8 a 13" src="https://img.shields.io/badge/laravel-8%20a%2013-ff2d20?style=flat-square&logo=laravel&logoColor=white">
+  <a href="LICENSE"><img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-2ea043?style=flat-square"></a>
+</p>
 
----
+<p align="center">
+  <a href="#inicio-rápido">Inicio rápido</a> &nbsp;|&nbsp;
+  <a href="#uso">Uso</a> &nbsp;|&nbsp;
+  <a href="#configuración">Configuración</a> &nbsp;|&nbsp;
+  <a href="#en-las-pruebas">En las pruebas</a> &nbsp;|&nbsp;
+  <a href="README.en.md">English</a>
+</p>
 
-## 📖 Documentación Oficial
+<br>
 
-Hemos preparado una documentación estructurada paso a paso para que domines el paquete a profundidad. Por favor, síguela en el siguiente orden:
+Los formularios públicos, como el registro, el inicio de sesión o el de
+contacto, reciben envíos automáticos de bots. **AntiBot** valida en el
+servidor el token que generan Cloudflare Turnstile o Google reCAPTCHA, con la
+misma regla para los tres proveedores. Cambiar de uno a otro es cambiar una
+variable de entorno.
 
-1. 📦 **[Instalación](docs/1-installation.md)**: Guía sobre cómo agregar el paquete (Packagist, GitHub o Local) y cómo publicar sus recursos.
-2. ⚙️ **[Configuración](docs/2-configuration.md)**: Aprende a declarar tus variables de entorno, configurar el proveedor por defecto y ajustar el *score* mínimo.
-3. 🚀 **[Uso Básico](docs/3-usage.md)**: Implementación mediante la Regla de Validación (recomendado), Middleware y Facade.
-4. 🧠 **[Uso Avanzado](docs/4-advanced.md)**: Cómo utilizar múltiples proveedores al vuelo en un mismo proyecto y validación estricta de acciones (*Action Matching*).
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/flujo-dark.svg">
+    <img alt="El formulario envía el token, AntiBotRule lo verifica con el proveedor, y la solicitud sigue al controlador o se rechaza con 422 o 403" src=".github/assets/flujo-light.svg" width="860">
+  </picture>
+</p>
 
----
+## Inicio rápido
 
-## ⚡ Quick Start (Vistazo Rápido)
+**1. Instala el paquete.** Laravel lo registra solo.
 
-Si ya tienes experiencia y solo quieres ver cómo funciona, aquí tienes un resumen veloz:
-
-**1. Requerir el paquete:**
 ```bash
-composer require abitech/antibot-laravel:"^1.0.0"
+composer require abitechdev/antibot-laravel
 ```
 
-**2. Definir tus claves en el archivo `.env`:**
+**2. Agrega la clave secreta** de tu proveedor al `.env`.
+
 ```env
-# Proveedor activo (turnstile, recaptcha_v2, recaptcha_v3)
 ANTIBOT_DEFAULT=turnstile
-
-# Cloudflare Turnstile
-TURNSTILE_SECRET=tu_clave_secreta_aqui
-
-# Google reCAPTCHA v2
-# RECAPTCHA_V2_SECRET=tu_clave_secreta_aqui
-
-# Google reCAPTCHA v3
-# RECAPTCHA_V3_SECRET=tu_clave_secreta_aqui
-# RECAPTCHA_V3_SCORE=0.5
+TURNSTILE_SECRET=tu-clave-secreta
 ```
 
-**3. Proteger tu formulario (Ejemplo en un Controlador):**
+**3. Valida el formulario** con la regla.
+
 ```php
 use Abitech\AntiBot\Rules\AntiBotRule;
 
-public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        // Valida automáticamente usando el proveedor por defecto y la IP del cliente
-        'cf-turnstile-response' => ['required', new AntiBotRule()],
-    ]);
+$request->validate([
+    'email' => ['required', 'email'],
+    'cf-turnstile-response' => ['required', new AntiBotRule()],
+]);
+```
 
-    // Lógica de inicio de sesión...
+Listo. Si el token no es válido, Laravel devuelve el error de validación como
+con cualquier otra regla.
+
+## Características
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🛡️ Una sola API</h4>
+      Turnstile, reCAPTCHA v2 y reCAPTCHA v3 se validan igual, con
+      <code>new AntiBotRule()</code>.
+    </td>
+    <td width="50%" valign="top">
+      <h4>🧩 Regla, middleware o fachada</h4>
+      Se usa donde encaja mejor, sin repetir código en cada formulario.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h4>🎯 Acción y puntaje</h4>
+      Comprueba que la acción del token sea la esperada y que reCAPTCHA v3
+      pase el puntaje mínimo.
+    </td>
+    <td valign="top">
+      <h4>🧪 Fácil de probar</h4>
+      <code>ANTIBOT_ENABLED=false</code> apaga la verificación en local y en
+      las pruebas automatizadas.
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <h4>💬 Mensajes en español</h4>
+      Los errores llegan traducidos y se pueden cambiar publicando sus
+      textos.
+    </td>
+    <td valign="top">
+      <h4>✅ Probado de Laravel 8 a 13</h4>
+      La integración continua corre las pruebas en cada versión, con su PHP
+      mínimo.
+    </td>
+  </tr>
+</table>
+
+## Proveedores
+
+| Proveedor | `ANTIBOT_DEFAULT` | Comprueba |
+| --- | --- | --- |
+| <img alt="" src="https://img.shields.io/badge/-Cloudflare%20Turnstile-f38020?style=flat-square&logo=cloudflare&logoColor=white"> | `turnstile` | Token y acción |
+| <img alt="" src="https://img.shields.io/badge/-reCAPTCHA%20v2-4285f4?style=flat-square&logo=google&logoColor=white"> | `recaptcha_v2` | Token |
+| <img alt="" src="https://img.shields.io/badge/-reCAPTCHA%20v3-4285f4?style=flat-square&logo=google&logoColor=white"> | `recaptcha_v3` | Token, acción y puntaje |
+
+## Compatibilidad
+
+| Laravel | PHP mínimo | Estado |
+| --- | --- | --- |
+| 13 | 8.3 | ✅ Probado |
+| 12 | 8.2 | ✅ Probado |
+| 11 | 8.2 | ✅ Probado |
+| 10 | 8.1 | ✅ Probado |
+| 9 | 8.0 | ✅ Probado |
+| 8 | 7.3 | ✅ Probado |
+
+## Uso
+
+### Con la regla de validación
+
+Es la forma recomendada. Valida el token junto con la IP de quien envía el
+formulario. Con reCAPTCHA el campo se llama `g-recaptcha-response`.
+
+```php
+'g-recaptcha-response' => ['required', new AntiBotRule()],
+```
+
+### Con el middleware
+
+Protege una ruta completa. Lee el token de la cabecera `X-AntiBot-Token` o del
+campo `antibot_token`, y responde 403 si no es válido.
+
+```php
+Route::post('/contacto', ContactoController::class)->middleware('antibot');
+```
+
+### Con la fachada
+
+Para decidir en el código qué hacer con el resultado.
+
+```php
+use Abitech\AntiBot\Facades\AntiBot;
+
+$resultado = AntiBot::verify($token, $request->ip());
+
+if (! $resultado->success) {
+    // $resultado->errors trae los códigos de error del proveedor.
 }
 ```
 
-> **Nota:** Para ver más ejemplos, casos de uso con reCAPTCHA y middleware, dirígete a la sección de **[Uso Básico](docs/3-usage.md)**.
+<details>
+<summary><strong>Exigir una acción</strong></summary>
+<br>
+
+Turnstile y reCAPTCHA v3 adjuntan al token el nombre de la acción. Si no
+coincide con la esperada, la validación falla. Así un token generado en otro
+formulario no sirve en este.
+
+```php
+new AntiBotRule('login');                               // En la regla
+Route::post('/login', ...)->middleware('antibot:login'); // En el middleware
+AntiBot::verify($token, $request->ip(), 'login');       // Con la fachada
+```
+
+</details>
+
+<details>
+<summary><strong>Usar otro proveedor en una sola parte</strong></summary>
+<br>
+
+El proveedor por defecto sale de `ANTIBOT_DEFAULT`. Para usar otro en un lugar
+concreto, pídelo por su nombre.
+
+```php
+AntiBot::driver('recaptcha_v3')->verify($token, $request->ip(), 'suscripcion');
+```
+
+</details>
+
+## Configuración
+
+Todo se configura con variables de entorno.
+
+| Variable | Por defecto | Para qué sirve |
+| --- | --- | --- |
+| `ANTIBOT_ENABLED` | `true` | `false` aprueba todo sin consultar al proveedor |
+| `ANTIBOT_DEFAULT` | `turnstile` | Proveedor de la regla y el middleware |
+| `TURNSTILE_SECRET` | | Clave secreta de Cloudflare Turnstile |
+| `RECAPTCHA_V2_SECRET` | | Clave secreta de reCAPTCHA v2 |
+| `RECAPTCHA_V3_SECRET` | | Clave secreta de reCAPTCHA v3 |
+| `RECAPTCHA_V3_SCORE` | `0.5` | Puntaje mínimo de reCAPTCHA v3, de 0 a 1 |
+
+Cada proveedor acepta también su `*_TIMEOUT`, en segundos (10 por defecto).
+Para cambiar algo más, publica el archivo de configuración o los mensajes:
+
+```bash
+php artisan vendor:publish --tag=antibot-config
+php artisan vendor:publish --tag=antibot-translations
+```
+
+## En las pruebas
+
+Apaga la verificación en `phpunit.xml` para que las pruebas no dependan de
+internet.
+
+```xml
+<env name="ANTIBOT_ENABLED" value="false"/>
+```
+
+Para probar el rechazo, deja el paquete encendido y simula la respuesta del
+proveedor con `Http::fake()`.
+
+## Más información
+
+- 📚 [Guía completa](docs/1-installation.md), con la configuración y el uso
+  avanzado.
+- 🔒 [Política de seguridad](SECURITY.md). Las vulnerabilidades se reportan en
+  privado.
+- 🤝 [Guía para contribuir](CONTRIBUTING.md). Las propuestas son bienvenidas.
+- 📝 [Cambios de cada versión](CHANGELOG.md).
+
+## Licencia
+
+Publicado con la [licencia MIT](LICENSE). Puedes usarlo, modificarlo y
+distribuirlo, también en proyectos comerciales.
+
+<br>
+
+<p align="center">
+  Hecho en Huánuco, Perú, por <a href="https://abitech.dev">Abimael Fernandez</a>
+</p>

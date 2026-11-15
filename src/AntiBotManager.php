@@ -68,7 +68,7 @@ class AntiBotManager extends Manager
      * Intercepta las llamadas al driver para inyectar el modo de prueba (Bypass).
      *
      * @param  string  $method
-     * @param  array  $parameters
+     * @param  array<string, mixed>  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

@@ -2,7 +2,7 @@
 
 ## Fase 1 - Base del paquete
 
-- Crear paquete Composer `abitech/antibot-laravel`.
+- Crear paquete Composer `abitechdev/antibot-laravel`.
 - Configurar PSR-4 apuntando a `src/`.
 - Crear Service Provider (`AntiBotServiceProvider`).
 - Crear Facade (`AntiBot`).

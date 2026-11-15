@@ -12,7 +12,7 @@ Dependiendo de dónde tengas alojado el paquete, elige una de las siguientes opc
 ### Opción A: Desde Packagist (Público)
 Si el paquete es público, instálalo ejecutando:
 ```bash
-composer require abitech/antibot-laravel
+composer require abitechdev/antibot-laravel
 ```
 
 ### Opción B: Desde un Repositorio Git (Privado/Público)
@@ -29,12 +29,12 @@ Luego instálalo especificando la rama o el Tag (versión) que deseas utilizar:
 
 **Para una rama específica (Desarrollo):**
 ```bash
-composer require abitech/antibot-laravel:dev-main
+composer require abitechdev/antibot-laravel:dev-main
 ```
 
 **Para un Tag / Versión específica (Producción):**
 ```bash
-composer require abitech/antibot-laravel:"^1.0.0"
+composer require abitechdev/antibot-laravel:"^1.0.0"
 ```
 
 ### Opción C: Instalación Local (Para desarrollo)
@@ -49,7 +49,7 @@ Si estás desarrollando el paquete en tu máquina y quieres probarlo en otro pro
 ```
 Y luego instala enlazándolo en modo desarrollo:
 ```bash
-composer require abitech/antibot-laravel:@dev
+composer require abitechdev/antibot-laravel:@dev
 ```
 
 ## Pasos Siguientes

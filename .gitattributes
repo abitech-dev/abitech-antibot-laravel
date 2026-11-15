@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# Fuera del paquete que instala Composer.
+/.agents export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.github export-ignore
+/.gitignore export-ignore
+/docs export-ignore
+/phpstan.neon.dist export-ignore
+/phpunit.xml.dist export-ignore
+/pint.json export-ignore
+/tests export-ignore

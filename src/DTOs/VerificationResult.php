@@ -12,12 +12,15 @@ class VerificationResult
     /** @var float|null */
     public $score;
 
-    /** @var array|null */
+    /** @var array<int, string>|null */
     public $errors;
 
     /** @var string|null */
     public $action;
 
+    /**
+     * @param  array<int, string>|null  $errors
+     */
     public function __construct(
         bool $success,
         ?float $score = null,
