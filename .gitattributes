@@ -1,7 +1,6 @@
 * text=auto eol=lf
 
-# Packagist instala el archivo de cada versión sin lo que solo sirve para
-# desarrollar el paquete.
+# Fuera del paquete que instala Composer.
 /.agents export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore

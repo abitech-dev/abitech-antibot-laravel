@@ -32,11 +32,11 @@ jobs:
           php-version: "8.3"
           coverage: none
 
-      # Esquema de Composer con licencia SPDX, autores y soporte.
+      # Esquema de Composer y licencia SPDX.
       - name: Validar composer.json
         run: composer validate --strict --no-check-lock
 
-      # Ningún secreto en el historial (OWASP ASVS V2).
+      # Sin secretos en el historial.
       - name: Buscar secretos
         run: |
           archivo=gitleaks_${GITLEAKS}_linux_x64.tar.gz
@@ -45,13 +45,12 @@ jobs:
           tar -xzf "$archivo" gitleaks
           ./gitleaks git --redact --no-banner
 
-      # Advisories de Packagist sobre las dependencias resueltas.
       - name: Auditar dependencias
         run: |
           composer update --no-interaction --no-progress --prefer-dist
           composer audit
 
-      # Packagist sirve el archivo de git, con el código y sin las pruebas.
+      # Lo que descarga Composer, sin las pruebas.
       - name: Revisar el archivo publicado
         run: |
           git archive HEAD | tar -t > contenido.txt
@@ -77,7 +76,7 @@ jobs:
           php-version: "8.3"
           coverage: none
 
-      # Pint y Larastan piden PHP 8, así que no van en composer.json.
+      # Fuera de composer.json porque piden PHP 8.
       - name: Instalar las herramientas
         run: >
           composer require --dev --no-interaction --no-progress -W
@@ -96,10 +95,10 @@ jobs:
     timeout-minutes: 10
     strategy:
       fail-fast: false
-      # Cada versión de Laravel que promete composer.json, con su PHP mínimo.
+      # Cada Laravel prometido, con su PHP mínimo.
       matrix:
         include:
-          - { php: "7.3", laravel: "8.*", testbench: "6.*", estabilidad: prefer-lowest }
+          - { php: "7.3", laravel: "8.*", testbench: "6.*", estabilidad: prefer-stable }
           - { php: "8.0", laravel: "9.*", testbench: "7.*", estabilidad: prefer-stable }
           - { php: "8.1", laravel: "10.*", testbench: "8.*", estabilidad: prefer-stable }
           - { php: "8.2", laravel: "11.*", testbench: "9.*", estabilidad: prefer-stable }
@@ -116,8 +115,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
 
-      # Laravel 8 a 11 ya no reciben parches y Composer bloquea sus versiones
-      # con advisories. Aquí solo se prueba la compatibilidad del paquete.
+      # Composer bloquea Laravel 8 a 11 por advisories sin parche.
       - name: Instalar la combinación
         run: |
           composer config audit.block-insecure false
