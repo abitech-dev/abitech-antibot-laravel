@@ -40,3 +40,17 @@ RECAPTCHA_V3_SCORE=0.5
 Si abres el archivo `config/antibot.php`, encontrarás opciones de personalización como:
 - **Tiempos de espera (Timeout):** Permite controlar el tiempo máximo de espera para las peticiones HTTP a las APIs externas.
 - **URLs de las APIs:** Direcciones predeterminadas de los servicios.
+
+## Todas las variables
+
+| Variable | Por defecto | Para qué sirve |
+| --- | --- | --- |
+| `ANTIBOT_ENABLED` | `true` | `false` aprueba todo sin consultar al proveedor |
+| `ANTIBOT_DEFAULT` | `turnstile` | Proveedor de la regla y el middleware |
+| `TURNSTILE_SECRET` | | Clave secreta de Cloudflare Turnstile |
+| `RECAPTCHA_V2_SECRET` | | Clave secreta de reCAPTCHA v2 |
+| `RECAPTCHA_V3_SECRET` | | Clave secreta de reCAPTCHA v3 |
+| `RECAPTCHA_V3_SCORE` | `0.5` | Puntaje mínimo de reCAPTCHA v3, de 0 a 1 |
+
+Cada proveedor acepta también su `*_TIMEOUT`, en segundos, con 10 por
+defecto.

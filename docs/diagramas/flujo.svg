@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 112 960 296" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="flujo-title flujo-desc" id="flujo-root">
+        <title id="flujo-title">Cómo valida AntiBot un formulario</title>
+        <desc id="flujo-desc">El formulario envía el token, AntiBot lo verifica con el proveedor y la solicitud sigue al controlador o se rechaza con 422 o 403.</desc>
+        <defs>
+      <style>#flujo-root { font-family: 'Inter', system-ui, sans-serif; color: #141b24; }
+      #flujo-root .diagram-container { width: 100%; overflow-x: auto; }
+      @media print {
+#flujo-root .diagram-container { overflow-x: visible; }
+}</style>
+          <marker id="flujo-flujo-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#515963"/></marker>
+          <marker id="flujo-flujo-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#1c6ccc"/></marker>
+        </defs>
+        <rect x="0" y="112" width="960" height="296" fill="#f9fafc"/>
+        <line x1="220" y1="176" x2="320" y2="176" stroke="#1c6ccc" stroke-width="1.4" marker-end="url(#flujo-flujo-arrow-accent)"/>
+        <line x1="320" y1="224" x2="220" y2="224" stroke="#515963" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#flujo-flujo-arrow)"/>
+        <line x1="560" y1="176" x2="680" y2="176" stroke="#515963" stroke-width="1.2" marker-end="url(#flujo-flujo-arrow)"/>
+        <line x1="680" y1="224" x2="560" y2="224" stroke="#515963" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#flujo-flujo-arrow)"/>
+        <line x1="440" y1="264" x2="440" y2="320" stroke="#1c6ccc" stroke-width="1.4" marker-end="url(#flujo-flujo-arrow-accent)"/>
+        <rect x="244.0" y="151" width="52" height="16" rx="2" fill="#f9fafc"/>
+        <text x="270" y="163" fill="#515963" font-size="11" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">TOKEN</text>
+        <rect x="228.0" y="199" width="84" height="16" rx="2" fill="#f9fafc"/>
+        <text x="270" y="211" fill="#515963" font-size="11" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">422 O 403</text>
+        <rect x="582.0" y="151" width="76" height="16" rx="2" fill="#f9fafc"/>
+        <text x="620" y="163" fill="#515963" font-size="11" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">VERIFICA</text>
+        <rect x="578.0" y="199" width="84" height="16" rx="2" fill="#f9fafc"/>
+        <text x="620" y="211" fill="#515963" font-size="11" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">RESULTADO</text>
+        <rect x="40" y="152" width="180" height="96" rx="6" fill="#f9fafc"/>
+        <rect x="40" y="152" width="180" height="96" rx="6" fill="#ffffff" stroke="#141b24" stroke-width="1"/>
+        <text x="130.0" y="198.0" fill="#141b24" font-size="16" font-family="'Inter', system-ui, sans-serif" text-anchor="middle" font-weight="600">Formulario</text>
+        <text x="130.0" y="216.0" fill="#515963" font-size="12" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle">token del widget</text>
+        <rect x="320" y="136" width="240" height="128" rx="6" fill="#f9fafc"/>
+        <rect x="320" y="136" width="240" height="128" rx="6" fill="#1c6ccc" stroke="#1c6ccc" stroke-width="1.4" fill-opacity="0.08"/>
+        <text x="440.0" y="198.0" fill="#141b24" font-size="16" font-family="'Inter', system-ui, sans-serif" text-anchor="middle" font-weight="600">AntiBot</text>
+        <text x="440.0" y="216.0" fill="#515963" font-size="12" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle">abitechdev/antibot-laravel</text>
+        <rect x="680" y="136" width="240" height="128" rx="6" fill="#f9fafc"/>
+        <rect x="680" y="136" width="240" height="128" rx="6" fill="#141b24" stroke="#141b24" stroke-width="1" fill-opacity="0.03" stroke-opacity="0.30"/>
+        <text x="800.0" y="198.0" fill="#141b24" font-size="16" font-family="'Inter', system-ui, sans-serif" text-anchor="middle" font-weight="600">Proveedor</text>
+        <text x="800.0" y="216.0" fill="#515963" font-size="12" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle">Turnstile o reCAPTCHA</text>
+        <rect x="340" y="320" width="200" height="64" rx="6" fill="#f9fafc"/>
+        <rect x="340" y="320" width="200" height="64" rx="6" fill="#ffffff" stroke="#141b24" stroke-width="1"/>
+        <text x="440.0" y="350.0" fill="#141b24" font-size="16" font-family="'Inter', system-ui, sans-serif" text-anchor="middle" font-weight="600">Tu controlador</text>
+        <text x="440.0" y="368.0" fill="#515963" font-size="12" font-family="'JetBrains Mono', ui-monospace, monospace" text-anchor="middle">solo si pasa</text>
+      </svg>
