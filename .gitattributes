@@ -1,7 +1,8 @@
 * text=auto eol=lf
 
 # Fuera del paquete que instala Composer.
-/.agents export-ignore
+/.claude export-ignore
+/CLAUDE.md export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.github export-ignore

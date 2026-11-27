@@ -2,7 +2,7 @@
 
 El paquete **Abitech AntiBot Laravel** requiere lo siguiente para funcionar de manera óptima:
 
-- **PHP**: 7.3 hasta 8.3
+- **PHP**: 7.3 o superior
 - **Laravel**: 8.x hasta 13.x
 
 ## Opciones de Instalación

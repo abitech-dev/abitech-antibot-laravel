@@ -61,7 +61,7 @@ jobs:
           for requerido in composer.json LICENSE README.md src/ config/ lang/; do
             grep -qx "$requerido" contenido.txt || { echo "Falta $requerido"; exit 1; }
           done
-          if grep -E '^(tests|\.github|docs|\.agents)/' contenido.txt; then
+          if grep -E '^((tests|\.github|docs|\.claude)/|CLAUDE\.md$)' contenido.txt; then
             echo "El archivo publicado lleva carpetas de desarrollo"; exit 1
           fi
 
