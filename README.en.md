@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/imagenes/logo-oscuro.svg">
-    <img alt="AntiBot for Laravel" src="docs/imagenes/logo-claro.svg" width="320">
+    <img alt="AntiBot for Laravel" src="docs/imagenes/logo-claro.svg" height="80">
   </picture>
 </p>
 
@@ -124,6 +124,7 @@ $result = AntiBot::verify($token, $request->ip(), 'login');
 | See every variable | [2-configuration.md](docs/2-configuration.md) |
 | Use the rule, middleware or facade | [3-usage.md](docs/3-usage.md) |
 | Require actions or switch providers | [4-advanced.md](docs/4-advanced.md) |
+| Know why it is released this way | [ADR 0001](docs/decisiones/0001-ramas-y-publicacion.md) (Spanish) |
 | See changes by version | [CHANGELOG.md](CHANGELOG.md) |
 
 ## Contributing
